@@ -100,7 +100,7 @@ graph TD
 
 ### 1.4. Giám sát sâu (Deep Supervision)
 *   **Lý thuyết chuyên sâu:** Nhằm giải quyết hiện tượng suy giảm gradient (gradient vanishing) khi huấn luyện các mạng sâu. Bằng cách đặt các lớp đầu ra phụ (auxiliary heads) tại các tầng giải mã trung gian của decoder ($1/16$, $1/8$, $1/4$ độ phân giải) và tính loss trực tiếp trên chúng, mô hình được cung cấp thêm các dòng gradient bổ trợ mạnh mẽ từ nhiều cấp độ phân giải. Công thức loss tổng hợp khi có Deep Supervision:
-    $$L_{\text{total}} = L_{\text{main\_head}} + \sum_{i=0}^{N} w_i L_{\text{aux\_head}_i}$$
+    $$L_{\text{total}} = L_{\text{main}} + \sum_{i=0}^{N} w_i L_{\text{aux}, i}$$
 *   **Mã nguồn:** 3 đầu ra tích chập phụ `self.aux_head0`, `self.aux_head1`, `self.aux_head2` được bọc bên trong decoder wrapper.
 *   **Chi tiết hoạt động:**
     *   Đầu ra phụ chỉ được sinh ra trong chế độ huấn luyện (`self.training == True`). Khi chạy đánh giá (`eval`), mô hình chỉ trả về một nhánh chính duy nhất để tối ưu thời gian suy luận.
